@@ -3,6 +3,7 @@
            https://api.github.com/users/<your name>
 */
 
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -24,9 +25,9 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
 
-/* Step 3: Create a function that accepts a single object as its only argument,
+
+/* Step 3: Create a function that accepts a single item as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
 <div class="card">
@@ -53,3 +54,87 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+
+//my personal git card
+axios.get("https://api.github.com/users/manzur1990", { crossdomain: true })
+.then(response => {
+  const myCard = gitCardMaker(response.data)
+  newCard.appendChild(myCard)
+  
+})
+.catch(error => {
+  console.log("Error: ", error)
+})
+
+//creating function fucntion gitCardMaker
+function gitCardMaker(userData) {
+  
+  //creating elements
+  const card = document.createElement("div")
+  const newImg = document.createElement("img")
+  const cardInfo = document.createElement("div")
+  const name = document.createElement("h3")
+  const username = document.createElement("p")
+  const location = document.createElement("p")
+  const profile = document.createElement("p")
+  const gitLink = document.createElement("a")
+  const followers = document.createElement("p")
+  const following = document.createElement("p")
+  const cardBio = document.createElement("p")
+  
+  //referencing styles
+  card.classList.add("card")
+  cardInfo.classList.add("card-info")
+  name.classList.add("name")
+  username.classList.add("username")
+  
+  //structuring HTML
+  card.appendChild(newImg)
+  card.appendChild(cardInfo)
+  cardInfo.appendChild(name)
+  cardInfo.appendChild(username)
+  cardInfo.appendChild(location)
+  cardInfo.appendChild(profile)
+  cardInfo.appendChild(followers)
+  cardInfo.appendChild(following)
+  cardInfo.appendChild(cardBio)
+  profile.appendChild(gitLink)
+  
+  //referencing content
+  newImg.src = userData.avatar_url
+  name.textContent = userData.name
+  username.textContent = userData.login
+  location.textContent = (`Location: ${userData.location}`)
+  profile.textContent = (`Profile: ${gitLink}`)
+  gitLink.textContent = userData.html_url
+  followers.textContent = (`Followers: ${userData.followers}`)
+  following.textContent = (`Following: ${userData.following}`)
+  cardBio.textContent = (`Bio: ${userData.bio}`)
+  
+  return card
+}
+const newCard = document.querySelector(".cards")
+
+//people I'm following array
+        const followersArray = [
+          "fassko",
+          "Alexander-Frost",
+          "jsonmaur",
+          "br80",
+          "cjbt"
+        ];
+
+ const cards = document.querySelector('.cards')
+
+        followersArray.forEach(follower => {
+          axios.get(`https://api.github.com/users/${follower}`)
+            .then(response => {
+              console.log(response)
+              cards.append(gitCardMaker(response.data))
+            })
+            .catch(error => {
+              console.log("Error: ", error)
+            })
+        })
+
