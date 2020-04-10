@@ -106,8 +106,7 @@ function gitCardMaker(userData) {
   name.textContent = userData.name
   username.textContent = userData.login
   location.textContent = (`Location: ${userData.location}`)
-  profile.textContent = (`Profile: ${gitLink}`)
-  gitLink.textContent = userData.html_url
+  profile.textContent = (`Profile: ${userData.html_url}`)
   followers.textContent = (`Followers: ${userData.followers}`)
   following.textContent = (`Following: ${userData.following}`)
   cardBio.textContent = (`Bio: ${userData.bio}`)
